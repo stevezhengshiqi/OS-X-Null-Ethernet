@@ -1,3 +1,7 @@
+/* Modified by stevezhengshiqi: Added _STA method to disable RMNE device when NOT in macOS.
+ *
+ */
+
 /* ssdt.dsl -- SSDT injector for NullEthernet
  *
  * Copyright (c) 2014 RehabMan <racerrehabman@gmail.com>
@@ -17,7 +21,7 @@
 
 // Use this SSDT as an alternative to patching your DSDT...
 
-DefinitionBlock("", "SSDT", 2, "RehabMan", "RMNE", 0x00001000)
+DefinitionBlock("", "SSDT", 2, "hack", "_RMNE", 0x00000000)
 {
     Device (RMNE)
     {
@@ -26,6 +30,17 @@ DefinitionBlock("", "SSDT", 2, "RehabMan", "RMNE", 0x00001000)
         Name (_HID, "NULE0000")
         // This is the MAC address returned by the kext. Modify if necessary.
         Name (MAC, Buffer() { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66 })
+        Method (_STA, 0, NotSerialized)
+        {
+            If (_OSI ("Darwin"))
+            {
+                Return (0x0F)
+            }
+            Else
+            {
+                Return (Zero)
+            }
+        }
         Method (_DSM, 4, NotSerialized)
         {
             If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
