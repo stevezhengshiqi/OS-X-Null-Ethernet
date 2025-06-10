@@ -51,13 +51,15 @@ This method is also the easiest way to install in all cases.
 
 ### Providing the MAC address:
 
-Obviously the kext cannot provide a real MAC address from the device.  Instead it just reports the MAC address you provide.  The MAC address provided to the system from this kext is determined as follows:
+Obviously the kext cannot provide a real MAC address from the device.  Instead it just reports the MAC address you provide.  A good practice is to follow Organizationally Unique Identifier (OUI) to spoof real Apple, Inc. interface.
 
-- the default MAC address is 01:02:03:04:05:06
+The MAC address provided to the system from this kext is determined as follows:
+
+- the default MAC address is 00:16:CB:01:02:03
 
 - if there is a MAC-address property provided in NullEthernet.kext/Contents/Info.plist (or if using the injector, in NullEthernetInjector.kext/Contents/Info.plist), that one is used. By default, there is no MAC-address specified in NullEthernet.kext/Contents/Info.plist.
 
-- if loading from ACPI (DSDT patch), a method called MAC can provide a MAC address.  The return value must be a buffer of exactly 6-bytes.  The default in patch.txt is 11:22:33:44:55:66
+- if loading from ACPI (DSDT patch), a method called MAC can provide a MAC address.  The return value must be a buffer of exactly 6-bytes.  The default in patch.txt is 00:16:CB:00:11:22
 
 - lastly, the provider (parent object of the kext), can provide a MAC address as a property named "RM,MAC-address".  This property is usually set via a _DSM method in the DSDT.  For example, here is an example patch that works on the HP ProBook for its built-in Ethernet device:
 
@@ -71,7 +73,7 @@ Method (_DSM, 4, NotSerialized)\n
     If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
     Return (Package()\n
     {\n
-        "RM,MAC-address", Buffer() { 0x11, 0x22, 0x33, 0x66, 0x55, 0x44 },\n
+        "RM,MAC-address", Buffer() { 0x00, 0x16, 0xCB, 0x22, 0x11, 0x00 },\n
     })\n
 }\n
 end;
@@ -88,7 +90,7 @@ Method (_DSM, 4, NotSerialized)\n
     If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
     Return (Package()\n
     {\n
-        "RM,MAC-address", Buffer() { 0x11, 0x22, 0x33, 0x66, 0x55, 0x44 },\n
+        "RM,MAC-address", Buffer() { 0x00, 0x16, 0xCB, 0x22, 0x11, 0x00 },\n
         "built-in", Buffer() { 0x00 },\n
         "device_type", Buffer() { "ethernet" },\n
     })\n
@@ -106,7 +108,7 @@ If you've previously had network interfaces setup (eg. not a fresh install), you
 
 ### Downloads:
 
-Downloads are available on Bitbucket:
+Downloads are available on Bitbucket: **Free Downloads NOT Available**
 
 https://bitbucket.org/RehabMan/os-x-null-ethernet/downloads/
 

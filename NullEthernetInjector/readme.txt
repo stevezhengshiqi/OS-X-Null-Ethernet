@@ -15,7 +15,9 @@ You should change the IOPCIMatch to your own device you wish the NullEthernet dr
 attach to.
 
 You could provide the MAC address with a DSDT patch in the provider or you can provide the
-MAC address in the injector.  To inject at the provider, use a _DSM injection of the property
+MAC address in the injector.  A good practice is to follow Organizationally Unique Identifier (OUI) to spoof real Apple, Inc. interface.
+
+To inject at the provider, use a _DSM injection of the property
 "RM,MAC-address"
 
 An example patch (this is based on the ProBook DSDT):
@@ -28,7 +30,7 @@ Method (_DSM, 4, NotSerialized)\n
     If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
     Return (Package()\n
     {\n
-        "RM,MAC-address", Buffer() { 0x11, 0x22, 0x33, 0x66, 0x55, 0x44 },\n
+        "RM,MAC-address", Buffer() { 0x00, 0x16, 0xCB, 0x22, 0x11, 0x00 },\n
     })\n
 }\n
 end;
@@ -44,7 +46,7 @@ Method (_DSM, 4, NotSerialized)\n
     If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
     Return (Package()\n
     {\n
-        "RM,MAC-address", Buffer() { 0x11, 0x22, 0x33, 0x66, 0x55, 0x44 },\n
+        "RM,MAC-address", Buffer() { 0x00, 0x16, 0xCB, 0x22, 0x11, 0x00 },\n
         "built-in", Buffer() { 0x00 },\n
         "device_type", Buffer() { "ethernet" },\n
     })\n

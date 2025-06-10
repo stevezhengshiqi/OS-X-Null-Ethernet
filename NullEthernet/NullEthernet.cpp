@@ -1,3 +1,7 @@
+/* Modified by stevezhengshiqi: Modified default MAC address to follow OUI and spoof real Apple, Inc. interface.
+ *
+ */
+
 /* NullEthernet.c -- NullEthernet driver class implementation.
  *
  * Copyright (c) 2014 RehabMan <racerrehabman@gmail.com>
@@ -51,7 +55,7 @@ bool NullEthernet::init(OSDictionary *properties)
     unitNumber = 0;
 
     // load default MAC address (can be overridden in DSDT)
-    static unsigned char rgDefault[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
+    static unsigned char rgDefault[] = { 0x00, 0x16, 0xCB, 0x01, 0x02, 0x03 };
     bcopy(rgDefault, m_rgMacAddr, kIOEthernetAddressSize);
     if (properties)
     {

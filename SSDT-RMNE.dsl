@@ -25,11 +25,12 @@ DefinitionBlock("", "SSDT", 2, "hack", "_RMNE", 0x00000000)
 {
     Device (RMNE)
     {
-        Name (_ADR, Zero)
         // The NullEthernet kext matches on this HID
         Name (_HID, "NULE0000")
         // This is the MAC address returned by the kext. Modify if necessary.
-        Name (MAC, Buffer() { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66 })
+        // A good practice is to follow Organizationally Unique Identifier (OUI) to spoof real Apple, Inc. interface.
+        // Reference: https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html#choose-a-mac-address
+        Name (MAC, Buffer() { 0x00, 0x16, 0xCB, 0x00, 0x11, 0x22 })
         Method (_STA, 0, NotSerialized)
         {
             If (_OSI ("Darwin"))
@@ -43,10 +44,10 @@ DefinitionBlock("", "SSDT", 2, "hack", "_RMNE", 0x00000000)
         }
         Method (_DSM, 4, NotSerialized)
         {
-            If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
+            If (LEqual (Arg2, Zero)) { Return (Buffer(One) { 0x03 } ) }
             Return (Package()
             {
-                "built-in", Buffer() { 0x00 },
+                "built-in", Buffer(One) { 0x00 },
                 "IOName", "ethernet",
                 "name", Buffer() { "ethernet" },
                 "model", Buffer() { "RM-NullEthernet-1001" },
