@@ -122,7 +122,7 @@ https://www.tonymacx86.com/attachments/rehabman-nullethernet-2014-1222-zip.11887
 There are no plans to provide newer 32-bit builds as the kext above serves the purpose.
 
 
-### Build Environment
+### How to Build
 
 <s>My build environment is currently Xcode 6.1, using SDK 10.6, targeting OS X 10.6.
 
@@ -134,6 +134,14 @@ In addition, it can be built supporting any of these OS X targets: 10.8, 10.7, o
 For greatest compatibility, the provided build is SDK 10.6 targeting 10.6.</s>
 
 We use [acidanthera/MacKernelSDK](https://github.com/acidanthera/MacKernelSDK) as our library to support legacy platforms.
+
+1. Make sure Xcode is installed properly.
+
+2. Open `Terminal.app` and run `git clone https://github.com/acidanthera/MacKernelSDK`.
+
+3. Continue in `Terminal.app`, run `make all distribute`.
+
+4. Debug and Release versions will appear in `Distribute` folder.
 
 For `i386` users, they need to refer to [MacKernelSDK - Targeting i386](https://github.com/acidanthera/MacKernelSDK?tab=readme-ov-file#targeting-i386).
 
