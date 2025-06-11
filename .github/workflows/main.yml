@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+env:
+  PROJECT_TYPE: KEXT
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+    env:
+      JOB_TYPE: BUILD
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize Variables
+        run: |
+          GIT_SHA="$(git rev-parse --short HEAD)"
+          echo "CUR_TAG=beta-$GIT_SHA" >> "$GITHUB_ENV"
+
+      - name: Manage Release Version
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+        run: |
+          echo "CUR_TAG=${GITHUB_REF##*/}" >> "$GITHUB_ENV"
+
+      - uses: actions/checkout@v4
+        with:
+          repository: acidanthera/MacKernelSDK
+          path: MacKernelSDK
+      - name: CI Bootstrap
+        run: src=$(/usr/bin/curl -Lfs https://raw.githubusercontent.com/acidanthera/ocbuild/master/ci-bootstrap.sh) && eval "$src" || exit 1
+
+      - name: Make Distribute
+        run: |
+          make all distribute
+
+      - name: Upload to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Artifacts
+          path: Distribute/*.zip
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: Distribute/*.zip
+          tag: ${{ github.ref }}
+          file_glob: true

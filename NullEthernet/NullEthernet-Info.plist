@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Source Code</key>
-	<string>https://github.com/RehabMan/OS-X-NullEthernet</string>
+	<string>https://github.com/stevezhengshiqi/OS-X-Null-Ethernet</string>
 	<key>CFBundleGetInfoString</key>
 	<string>$MODULE_VERSION, Copyright © 2014 RehabMan. All rights reserved.</string>
 	<key>CFBundleDevelopmentRegion</key>

@@ -1,57 +1,40 @@
 ## Null Ethernet Network Driver by RehabMan
 
-The purpose of this driver is to enable Mac App Store access even if you don’t have a built-in Ethernet port with supporting drivers.  The idea is to use a USB WiFi and this “fake ethernet” driver to make the system still allow Mac App Store access.
+The purpose of this driver is to enable Mac App Store access even if you don’t have a built-in Ethernet port with supporting drivers. The idea is to use a USB WiFi and this “fake ethernet” driver to make the system still allow Mac App Store access.
 
-Note: Having a real Ethernet port with working driver or a real PCIe WiFi device with working AirPort driver is a better idea.  This is to be used as only a last resort where getting working built-in WiFi or Ethernet is not possible.
+Note: Having a real Ethernet port with working driver or a real PCIe WiFi device with working AirPort driver is a better idea. This is to be used as only a last resort where getting working built-in WiFi or Ethernet is not possible.
 
-Warning: I do not know if this works.  I do not have a USB WiFi to test with.  I do know that I was able to get it to load as IOBuiltIn=Yes, bsdname en0.  I did the test with my real Ethernet driver renamed, EthernetBuiltIn=No, and no PCIe WiFi card installed.  You will need to test in a real scenario.  Don’t expect it to work as the code probably needs more work.
+Warning: I do not know if this works. I do not have a USB WiFi to test with. I do know that I was able to get it to load as IOBuiltIn=Yes, bsdname en0. I did the test with my real Ethernet driver renamed, EthernetBuiltIn=No, and no PCIe WiFi card installed. You will need to test in a real scenario. Don’t expect it to work as the code probably needs more work.
 
-Update: It definitely works.  Confirmed a handfull of times on the day of the initial release.
-
-
+Update: It definitely works. Confirmed a handfull of times on the day of the initial release.
 
 
 ### How to Install (DSDT/SSDT method):
 
-Install the kext itself, NullEthernet.kext, with Kext Wizard or your favorite kext installer.  The Release build should be used for normal installs.  Use the Debug build for troubleshooting.
+Install the kext itself, NullEthernet.kext, with Kext Wizard or your favorite kext installer. The Release build should be used for normal installs. Use the Debug build for troubleshooting.
 
-In order to cause the kext to be loaded, you need to apply the DSDT patch provided in patch.txt.  It adds a fake device ‘RMNE’ which the driver will attach to.
+In order to cause the kext to be loaded, you need to apply the DSDT patch provided in patch.txt. It adds a fake device ‘RMNE’ which the driver will attach to.
 
 You may also use the provided SSDT-RMNE.aml as an extra SSDT for the bootloader to load in lieu of implementing the DSDT patch.
 
 To install the SSDT:
 
-Chameleon: Place in /Extra/ssdt.aml or /Extra/ssdt-1.aml, /Extra/ssdt-2.aml, depending on what SSDTs you already have installed.
+Chameleon: Place in /Extra/SSDT.aml or /Extra/SSDT-1.aml, /Extra/SSDT-2.aml, depending on what SSDTs you already have installed.
 
-Clover: Place in /EFI/CLOVER/ACPI/patched/ssdt-X.aml where 'X' is some number that you're not already using for SSDTs.
+Clover: Place in /EFI/CLOVER/ACPI/patched/SSDT-X.aml where 'X' is some number that you're not already using for SSDTs.
 
 
 ### How to Install (PCIe/injector method)
 
-This method is most appropriate if you have a PCIe Ethernet device that is not supported or has drivers that do not work for it.  Instead of creating a special device in your DSDT, the kext can directly attach to the PCI device.  Install the kext, NullEthernet.kext, with Kext Wizard or your favorite kext installer, just as above.
+This method is most appropriate if you have a PCIe Ethernet device that is not supported or has drivers that do not work for it. Instead of creating a special device in your DSDT, the kext can directly attach to the PCI device. Install the kext, NullEthernet.kext, with Kext Wizard or your favorite kext installer, just as above.
 
-Instead of DSDT patching, you will instead create a custom NullEthernetInjector.  To do so, modify the Info.plist in NullEthernetInjector.kext/Contents/Info.plist.  Change IOPCIMatch to suit your device.  Also, change the MAC-address property as appropriate (default is `12:34:56:78:ab:cd`).  Then install your custom NullEthernetInjector.kext like you would any kext.  When updates happen to the main NullEthernet.kext this step does not need to be repeated.
-
-
-### How to Install (NullEthernetForce method)
-
-NOTE: NOT WORKING YET. NullEthernetForce.kext removed for now.
-
-Prior to version 1.0.4 (eg. 1.0.3 and older), ACPI or a PCI device injector was required to provide a catalyst to load NullEthernet.kext.
-
-As of version 1.0.4, NullEthernetForce.kext is provided such that you can load the kext without having a matching PCI device, and without having any ACPI catalyst.  This allows the kext to be used in scenarios where patching ACPI is not possible and there is not suitable PCI device to attach the kext (such as real Mac with non-working WiFi).
-
-To use this method install both NullEthernet.kext and NullEthernetForce.kext to the system volume.
-
-You can customize the MAC address by modifying the Info.plist in NullEthernetForce.kext/Contents/Info.plist.
-
-This method is also the easiest way to install in all cases.
+Instead of DSDT patching, you will instead create a custom NullEthernetInjector. To do so, modify the Info.plist in NullEthernetInjector.kext/Contents/Info.plist. Change IOPCIMatch to suit your device. Also, change the MAC-address property as appropriate (default is `00:16:CB:12:34:56`). Then install your custom NullEthernetInjector.kext like you would any kext. When updates happen to the main NullEthernet.kext this step does not need to be repeated.
 
 
 
 ### Providing the MAC address:
 
-Obviously the kext cannot provide a real MAC address from the device.  Instead it just reports the MAC address you provide.  A good practice is to follow Organizationally Unique Identifier (OUI) to spoof real Apple, Inc. interface.
+Obviously the kext cannot provide a real MAC address from the device. Instead it just reports the MAC address you provide. A good practice is to follow Organizationally Unique Identifier (OUI) to spoof real Apple, Inc. interface.
 
 The MAC address provided to the system from this kext is determined as follows:
 
@@ -59,9 +42,9 @@ The MAC address provided to the system from this kext is determined as follows:
 
 - if there is a MAC-address property provided in NullEthernet.kext/Contents/Info.plist (or if using the injector, in NullEthernetInjector.kext/Contents/Info.plist), that one is used. By default, there is no MAC-address specified in NullEthernet.kext/Contents/Info.plist.
 
-- if loading from ACPI (DSDT patch), a method called MAC can provide a MAC address.  The return value must be a buffer of exactly 6-bytes.  The default in patch.txt is 00:16:CB:00:11:22
+- if loading from ACPI (DSDT patch), a method called MAC can provide a MAC address. The return value must be a buffer of exactly 6-bytes. The default in patch.txt is 00:16:CB:00:11:22
 
-- lastly, the provider (parent object of the kext), can provide a MAC address as a property named "RM,MAC-address".  This property is usually set via a _DSM method in the DSDT.  For example, here is an example patch that works on the HP ProBook for its built-in Ethernet device:
+- lastly, the provider (parent object of the kext), can provide a MAC address as a property named "RM,MAC-address". This property is usually set via a _DSM method in the DSDT. For example, here is an example patch that works on the HP ProBook for its built-in Ethernet device:
 
 
 ```
@@ -103,21 +86,25 @@ end;
 
 In order to work for Mac App Store access, NullEthernet must be assigned to 'en0'.
 
-If you've previously had network interfaces setup (eg. not a fresh install), you may need to remove all network interfaces and set them up again.  To do that, go into SysPrefs->Network and remove all interfaces, Apply, then remove /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist.  Reboot, then add all your network interfaces back, starting with NullEthernet.
+If you've previously had network interfaces setup (eg. not a fresh install), you may need to remove all network interfaces and set them up again. To do that, go into SysPrefs->Network and remove all interfaces, Apply, then remove /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist. Reboot, then add all your network interfaces back, starting with NullEthernet.
 
 
 ### Downloads:
 
-Downloads are available on Bitbucket: **Free Downloads NOT Available**
+< s>Downloads are available on Bitbucket:
 
-https://bitbucket.org/RehabMan/os-x-null-ethernet/downloads/
+https://bitbucket.org/RehabMan/os-x-null-ethernet/downloads/< /s>
 
-These builds are 64-bit only.  Don't expect them to work with the 32-bit kernel.
+Downloads are available on GitHub Releases:
+
+https://github.com/stevezhengshiqi/OS-X-Null-Ethernet/releases
+
+These builds are 64-bit only. Don't expect them to work with the 32-bit kernel.
 
 
 ### 32-bit Builds
 
-Although it can be modified for 32-bit builds, by default this project does not support 32-bit builds.  It is coded for 64-bit only.
+Although it can be modified for 32-bit builds, by default this project does not support 32-bit builds. It is coded for 64-bit only.
 
 Should you need it (eg. in Snow Leopard 32-bit, attempting to access the MAS), a special universal build (32/64) is available.
 
@@ -132,24 +119,25 @@ There are no plans to provide newer 32-bit builds as the kext above serves the p
 
 ### Build Environment
 
-My build environment is currently Xcode 6.1, using SDK 10.6, targeting OS X 10.6.
+< s>My build environment is currently Xcode 6.1, using SDK 10.6, targeting OS X 10.6.
 
 This kext can be built with any of the following SDKs: 10.8, 10.7, or 10.6 but only by enabling
 the hacks previously used in the code (see DISABLE_ALL_HACKS in the source code)
 
 In addition, it can be built supporting any of these OS X targets: 10.8, 10.7, or 10.6.
 
-For greatest compatibility, the provided build is SDK 10.6 targeting 10.6.
+For greatest compatibility, the provided build is SDK 10.6 targeting 10.6.< /s>
+
+We use [acidanthera/MacKernelSDK](https://github.com/acidanthera/MacKernelSDK) as our library to support legacy platforms.
+
+For `i386` users, they need to refer to [MacKernelSDK - Targeting i386](https://github.com/acidanthera/MacKernelSDK?tab=readme-ov-file#targeting-i386).
 
 
 ### Source Code:
 
 The source code is maintained at the following sites:
 
-https://bitbucket.org/RehabMan/os-x-null-ethernet
-
-https://github.com/RehabMan/OS-X-Null-Ethernet
-
+https://github.com/stevezhengshiqi/OS-X-Null-Ethernet
 
 ### Feedback:
 
@@ -164,6 +152,21 @@ http://www.insanelymac.com/forum/topic/295534-mac-app-store-access-with-nullethe
 
 
 ### Change Log:
+
+2025-06-11 v1.0.7
+
+- Add MacKernelSDK to support old macOS SDKs
+
+- Clean NullEthernetForce project files
+
+- Refractor Xcode Project files (ssdt-rmne.dsl -> SSDT-RMNE.dsl, PRODUCT_NAME and CURRENT_PROJECT_VERSION references, etc.)
+
+- Modify the default MAC address to follow OUI and spoof real Apple, Inc. interface.
+
+- Add _STA method in SSDT-RMNE to disable RMNE device when not in macOS
+
+- Update makefile to skip install/update targets on macOS 11+ because kexts are loaded from a sealed snapshot
+
 
 2016-12-20 v1.0.6
 
@@ -202,4 +205,4 @@ http://www.insanelymac.com/forum/topic/295534-mac-app-store-access-with-nullethe
 
 ### History:
 
-The source for this kext is heavily based on Mieze's RealtekRTL8111.kext.  I simply stripped everything meaningful from it to leave just a shell of an Ethernet driver.
+The source for this kext is heavily based on Mieze's RealtekRTL8111.kext. I simply stripped everything meaningful from it to leave just a shell of an Ethernet driver.

@@ -1,9 +1,19 @@
-#set -x
+#!/usr/bin/env bash
 
-# extract minor version (eg. 10.9 vs. 10.10 vs. 10.11)
-MINOR_VER=$([[ "$(sw_vers -productVersion)" =~ [0-9]+\.([0-9]+) ]] && echo ${BASH_REMATCH[1]})
-if [[ $MINOR_VER -ge 11 ]]; then
-    echo 10.11+
+version=$(sw_vers -productVersion)
+if [[ "$version" =~ ^([0-9]+)\.([0-9]+) ]]; then
+  major=${BASH_REMATCH[1]}
+  minor=${BASH_REMATCH[2]}
+  if (( major > 10 )); then
+    # Big Sur (11) or above
+    echo "11+"
+  elif (( minor <= 10 )); then
+    # 10.0 – 10.10
+    echo "10.10-"
+  else
+    # 10.11 – 10.15
+    echo "10.11-10.15"
+  fi
 else
-    echo 10.10-
+  echo "unknown"
 fi
