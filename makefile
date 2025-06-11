@@ -4,7 +4,7 @@ KEXT      := NullEthernet.kext
 DIST      := NullEthernet
 BUILDDIR  := ./Build/Products
 
-VERSION_ERA		:= $(shell ./print_version.sh)
+VERSION_ERA	:= $(shell ./print_version.sh)
 VERSION_MODULE	:= $(shell ./print_module_version.sh)
 
 ifeq ($(VERSION_ERA),10.10-)
