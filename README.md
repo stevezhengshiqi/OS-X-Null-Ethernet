@@ -168,17 +168,17 @@ http://www.insanelymac.com/forum/topic/295534-mac-app-store-access-with-nullethe
 
 2025-06-11 v1.0.7
 
-- Add MacKernelSDK to support old macOS SDKs
+- Added MacKernelSDK to support old macOS SDKs
 
-- Clean NullEthernetForce project files
+- Cleaned NullEthernetForce project files
 
-- Refractor Xcode Project files (ssdt-rmne.dsl -> SSDT-RMNE.dsl, PRODUCT_NAME and CURRENT_PROJECT_VERSION references, etc.)
+- Refactored Xcode Project files (ssdt-rmne.dsl -> SSDT-RMNE.dsl, PRODUCT_NAME and CURRENT_PROJECT_VERSION references, etc.)
 
-- Modify the default MAC address to follow OUI and spoof real Apple, Inc. interface.
+- Modified the default MAC address to follow OUI and spoof real Apple, Inc. interface.
 
-- Add _STA method in SSDT-RMNE to disable RMNE device when not in macOS
+- Added _STA method in SSDT-RMNE to disable RMNE device when not in macOS
 
-- Update makefile to skip install/update targets on macOS 11+ because kexts are loaded from a sealed snapshot
+- Updated makefile to skip install/update targets on macOS 11+ because kexts are loaded from a sealed snapshot
 
 
 2016-12-20 v1.0.6
