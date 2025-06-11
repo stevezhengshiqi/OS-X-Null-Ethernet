@@ -16,12 +16,12 @@ endif
 
 # on 11+ we stub out all install steps
 ifeq ($(VERSION_ERA),11+)
-.PHONY: install install_debug install_inject install_force update_kernelcache
-install install_debug install_inject install_force update_kernelcache:
+.PHONY: install install_debug install_inject update_kernelcache
+install install_debug install_inject update_kernelcache:
 	@echo "Install/update skipped on macOS $(shell sw_vers -productVersion)"
 else
 # only for 10.10- through 10.15:
-.PHONY: update_kernelcache install_debug install install_inject install_force
+.PHONY: update_kernelcache install_debug install install_inject
 
 update_kernelcache:
 	sudo touch /System/Library/Extensions
@@ -42,13 +42,6 @@ install_inject:
 	sudo cp -R $(BUILDDIR)/Release/NullEthernetInjector.kext      $(INSTDIR)
 	if [ "`which tag`" != "" ]; then sudo tag -a Blue $(INSTDIR)/$(KEXT); fi
 	if [ "`which tag`" != "" ]; then sudo tag -a Blue $(INSTDIR)/NullEthernetInjector.kext; fi
-	$(MAKE) update_kernelcache
-
-install_force:
-	sudo cp -R $(BUILDDIR)/Release/$(KEXT)                       $(INSTDIR)
-	sudo cp -R $(BUILDDIR)/Release/NullEthernetForce.kext         $(INSTDIR)
-	if [ "`which tag`" != "" ]; then sudo tag -a Blue $(INSTDIR)/$(KEXT); fi
-	if [ "`which tag`" != "" ]; then sudo tag -a Blue $(INSTDIR)/NullEthernetForce.kext; fi
 	$(MAKE) update_kernelcache
 endif
 
@@ -79,16 +72,16 @@ distribute:
 	mkdir ./Distribute
 	cp -R $(BUILDDIR)/Debug    ./Distribute
 	cp -R $(BUILDDIR)/Release  ./Distribute
-	cp     patch.txt ./Distribute/Release
-	cp     patch.txt ./Distribute/Debug
-	cp     SSDT-RMNE.aml ./Distribute/Release
-	cp     SSDT-RMNE.aml ./Distribute/Debug
+	cp patch.txt ./Distribute/Release
+	cp patch.txt ./Distribute/Debug
+	cp SSDT-RMNE.aml ./Distribute/Release
+	cp SSDT-RMNE.aml ./Distribute/Debug
 	find ./Distribute -name '*.DS_Store' -delete
 	find ./Distribute -name '*.dSYM' -prune -exec rm -r {} \;
 	ditto -c -k --sequesterRsrc --zlibCompressionLevel 9 ./Distribute/Release ./Archive_Release.zip
 	ditto -c -k --sequesterRsrc --zlibCompressionLevel 9 ./Distribute/Debug ./Archive_Debug.zip
-	mv      ./Archive_Release.zip ./Distribute/$(DIST)-$(VERSION_MODULE)-RELEASE.zip
-	mv      ./Archive_Debug.zip ./Distribute/$(DIST)-$(VERSION_MODULE)-DEBUG.zip
+	mv ./Archive_Release.zip ./Distribute/$(DIST)-$(VERSION_MODULE)-RELEASE.zip
+	mv ./Archive_Debug.zip ./Distribute/$(DIST)-$(VERSION_MODULE)-DEBUG.zip
 
 SSDT-RMNE.aml : SSDT-RMNE.dsl
 	iasl -p $@ $^
