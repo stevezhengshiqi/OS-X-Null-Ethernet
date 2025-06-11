@@ -1,4 +1,7 @@
-## Null Ethernet Network Driver by RehabMan
+Null Ethernet Network Driver (originally by RehabMan)
+====
+
+[![Build Status](https://github.com/stevezhengshiqi/OS-X-Null-Ethernet/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/stevezhengshiqi/OS-X-Null-Ethernet/actions)
 
 The purpose of this driver is to enable Mac App Store access even if you don’t have a built-in Ethernet port with supporting drivers. The idea is to use a USB WiFi and this “fake ethernet” driver to make the system still allow Mac App Store access.
 
@@ -21,7 +24,9 @@ To install the SSDT:
 
 Chameleon: Place in /Extra/SSDT.aml or /Extra/SSDT-1.aml, /Extra/SSDT-2.aml, depending on what SSDTs you already have installed.
 
-Clover: Place in /EFI/CLOVER/ACPI/patched/SSDT-X.aml where 'X' is some number that you're not already using for SSDTs.
+Clover: Place in /EFI/CLOVER/ACPI/patched/SSDT-RMNE.aml
+
+OpenCore: Place in /EFI/OC/ACPI/SSDT-RMNE.aml and add the corresponding entry in /EFI/OC/config.plist
 
 
 ### How to Install (PCIe/injector method)
@@ -91,9 +96,9 @@ If you've previously had network interfaces setup (eg. not a fresh install), you
 
 ### Downloads:
 
-< s>Downloads are available on Bitbucket:
+<s>Downloads are available on Bitbucket:
 
-https://bitbucket.org/RehabMan/os-x-null-ethernet/downloads/< /s>
+https://bitbucket.org/RehabMan/os-x-null-ethernet/downloads/</s>
 
 Downloads are available on GitHub Releases:
 
@@ -119,14 +124,14 @@ There are no plans to provide newer 32-bit builds as the kext above serves the p
 
 ### Build Environment
 
-< s>My build environment is currently Xcode 6.1, using SDK 10.6, targeting OS X 10.6.
+<s>My build environment is currently Xcode 6.1, using SDK 10.6, targeting OS X 10.6.
 
 This kext can be built with any of the following SDKs: 10.8, 10.7, or 10.6 but only by enabling
 the hacks previously used in the code (see DISABLE_ALL_HACKS in the source code)
 
 In addition, it can be built supporting any of these OS X targets: 10.8, 10.7, or 10.6.
 
-For greatest compatibility, the provided build is SDK 10.6 targeting 10.6.< /s>
+For greatest compatibility, the provided build is SDK 10.6 targeting 10.6.</s>
 
 We use [acidanthera/MacKernelSDK](https://github.com/acidanthera/MacKernelSDK) as our library to support legacy platforms.
 
