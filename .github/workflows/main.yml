@@ -42,3 +42,33 @@ jobs:
           file: Distribute/*.zip
           tag: ${{ github.ref }}
           file_glob: true
+
+  analyze-scripts:
+    name: Analyze Scripts
+    runs-on: macos-latest
+    env:
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Dependency
+        run: |
+          brew install shellcheck
+
+      - name: Run shellcheck
+        run: find . \( -name "*.tool" -o -name "*.command" -o -name "*.sh" \) -exec sh -c 'for TargetFile; do shellcheck --severity=info "${TargetFile}" || exit 1; done' sh {} +
+
+  analyze-dsls:
+    name: Analyze DSLs
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Dependency
+        run: |
+          curl -# -L -O https://raw.githubusercontent.com/Acidanthera/MaciASL/master/Dist/iasl-stable || exit 1
+          chmod +x iasl* || exit 1
+
+      - name: Run iasl
+        run: |
+          find . -name '*.dsl' -exec sh -c './iasl* -vs -p "${1%/*}/../${1##*/}" "${1%}" && echo || exit 1' sh {} \;
