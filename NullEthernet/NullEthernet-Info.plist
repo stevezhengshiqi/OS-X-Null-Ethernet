@@ -5,31 +5,31 @@
 	<key>Source Code</key>
 	<string>https://github.com/stevezhengshiqi/OS-X-Null-Ethernet</string>
 	<key>CFBundleGetInfoString</key>
-	<string>$MODULE_VERSION, Copyright © 2014 RehabMan. All rights reserved.</string>
+	<string>$(MODULE_VERSION), Copyright © 2014 RehabMan. All rights reserved.</string>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
+	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>${MODULE_NAME}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$MODULE_VERSION</string>
+	<string>$(MODULE_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$MODULE_VERSION</string>
+	<string>$(MODULE_VERSION)</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>NullEthernet</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>${MODULE_NAME}</string>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			<key>IOClass</key>
 			<string>org_rehabman_NullEthernet</string>
 			<key>IOProviderClass</key>
