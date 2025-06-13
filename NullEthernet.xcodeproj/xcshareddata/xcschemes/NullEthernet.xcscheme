@@ -34,20 +34,6 @@
                ReferencedContainer = "container:NullEthernet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ED7F46A81E04649200B348C5"
-               BuildableName = "NullEthernetForce.kext"
-               BlueprintName = "NullEthernetForce"
-               ReferencedContainer = "container:NullEthernet.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
