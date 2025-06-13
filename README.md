@@ -166,6 +166,11 @@ http://www.insanelymac.com/forum/topic/295534-mac-app-store-access-with-nullethe
 
 ### Change Log:
 
+2025-06-13 v1.0.8
+
+- Cleaned Xcode project file and info.plist
+
+
 2025-06-11 v1.0.7
 
 - Added MacKernelSDK to support old macOS SDKs
