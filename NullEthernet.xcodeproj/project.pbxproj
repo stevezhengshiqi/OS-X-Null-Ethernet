@@ -111,13 +111,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		8420C5C618922DBF009BF3EE /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D37BD67B16C605F500C255A2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,9 +125,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8420C5D518922DBF009BF3EE /* Build configuration list for PBXNativeTarget "NullEthernetInjector" */;
 			buildPhases = (
-				8420C5C618922DBF009BF3EE /* Headers */,
 				8420C5C718922DBF009BF3EE /* Resources */,
-				8420C5C818922DBF009BF3EE /* Rez */,
 			);
 			buildRules = (
 			);
@@ -153,7 +144,6 @@
 				D37BD67A16C605F500C255A2 /* Frameworks */,
 				D37BD67B16C605F500C255A2 /* Headers */,
 				D37BD67C16C605F500C255A2 /* Resources */,
-				D37BD67D16C605F500C255A2 /* Rez */,
 			);
 			buildRules = (
 			);
@@ -208,23 +198,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXRezBuildPhase section */
-		8420C5C818922DBF009BF3EE /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D37BD67D16C605F500C255A2 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D37BD67916C605F500C255A2 /* Sources */ = {
