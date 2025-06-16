@@ -58,7 +58,7 @@ into device label NIC parent_label RP06 insert
 begin
 Method (_DSM, 4, NotSerialized)\n
 {\n
-    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+    If (LEqual (Arg2, Zero)) { Return (Buffer(One) { 0x03 } ) }\n
     Return (Package()\n
     {\n
         "RM,MAC-address", Buffer() { 0x00, 0x16, 0xCB, 0x22, 0x11, 0x00 },\n
@@ -75,11 +75,11 @@ into device label NIC parent_label RP06 insert
 begin
 Method (_DSM, 4, NotSerialized)\n
 {\n
-    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+    If (LEqual (Arg2, Zero)) { Return (Buffer(One) { 0x03 } ) }\n
     Return (Package()\n
     {\n
         "RM,MAC-address", Buffer() { 0x00, 0x16, 0xCB, 0x22, 0x11, 0x00 },\n
-        "built-in", Buffer() { 0x00 },\n
+        "built-in", Buffer(One) { 0x00 },\n
         "device_type", Buffer() { "ethernet" },\n
     })\n
 }\n
